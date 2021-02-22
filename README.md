@@ -1,4 +1,4 @@
-# Chrome Extension countHubXp v1.0
+# Web Extension countHubXp v1.0
 
 Add a counter for your hub's experiences on https://intra.epitech.eu/user/*
 This extension is based on the amazing https://github.com/hugo-bach/countHubXp made by Hugo Bach.
@@ -13,7 +13,7 @@ It actually support :
 
 ## Requirement:
 
-- Google Chrome
+- Google Chrome / Firefox
 
 ## How to install
 
@@ -23,11 +23,11 @@ It actually support :
 ~/> git clone https://github.com/NialaH/intraxphub_chrome
 ```
 
-### Step 2 : Load the unpacked extension (Chrome)
+### Step 2 : Load the unpacked extension
 
 #### Google Chrome
 
-- Go to "[extensions for chrome](chrome://extensions/)".
+- Paste "chrome://extensions/" in your url.
 
 - Activate Developer Mode
 
@@ -42,5 +42,3 @@ It actually support :
 - Load the folder intraxphub_chrome .
 
 > :bulb: Don't forget to put a star on the project to support and enable the release of a more complete version.
-
-about:debugging#/runtime/this-firefox
