@@ -29,6 +29,6 @@ It actually support :
 
 - Activate Developer Mode
 
-- Load the folder myepitecheu with "Load unpacked".
+- Load the folder intraxphub_chrome with "Load unpacked".
 
 > :bulb: Don't forget to put a star on the project to support and enable the release of a more complete version.

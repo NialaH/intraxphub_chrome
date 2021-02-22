@@ -40,14 +40,12 @@ const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [] };
 
 const requestGet = async (url) => {
   let data;
-  console.log(url);
 
   try {
     const res = await fetch(url, {
       method: "GET",
       credentials: "include",
     });
-    console.log(res);
     data = await res.json();
   } catch (e) {
     console.log(e);
