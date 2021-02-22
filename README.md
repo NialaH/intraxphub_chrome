@@ -23,7 +23,9 @@ It actually support :
 ~/> git clone https://github.com/NialaH/intraxphub_chrome
 ```
 
-### Step 2 : Load the unpacked extension
+### Step 2 : Load the unpacked extension (Chrome)
+
+#### Google Chrome
 
 - Go to "[extensions for chrome](chrome://extensions/)".
 
@@ -31,4 +33,14 @@ It actually support :
 
 - Load the folder intraxphub_chrome with "Load unpacked".
 
+#### Firefox
+
+- Paste "about:debugging#/runtime/this-firefox" in your url.
+
+- Load Temporary Add-on
+
+- Load the folder intraxphub_chrome .
+
 > :bulb: Don't forget to put a star on the project to support and enable the release of a more complete version.
+
+about:debugging#/runtime/this-firefox
