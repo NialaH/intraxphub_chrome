@@ -10,6 +10,7 @@ It actually support :
 - Hackathon
 - Workshop / CodingBattle
 - Talk / Hubtalk
+- Hub Experiences
 
 ## Requirement:
 
