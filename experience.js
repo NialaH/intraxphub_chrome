@@ -47,6 +47,15 @@ const xpAct = [
     },
 ];
 
+var participation = {
+    talk: 0,
+    workshop: 0,
+    hackaton: 0,
+    talksoon: 0,
+    workshopsoon: 0,
+    hackatonsoon: 0,
+}
+
 const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [] };
 
 const requestGet = async (url) => {
@@ -74,7 +83,7 @@ const getActivitiesHub = async (region) => {
 };
 
 const getAllExperiences = async (activities, region, login) => {
-    const url = `${baseUrl}/module/2021/B-INN-000/${region?.split('/')[1]}-0-1`;
+    const url = `${baseUrl}/module/2021/B-INN-000/${region?.split('/')[ 1 ]}-0-1`;
     try {
         let res = await Promise.all(
             activities.map((act) => {
@@ -100,7 +109,7 @@ const getAllExperiences = async (activities, region, login) => {
 };
 
 const sortDate = (a, b) => {
-    const [dateA, dateB] = [new Date(a.start), new Date(b.start)];
+    const [ dateA, dateB ] = [ new Date(a.start), new Date(b.start) ];
 
     return dateA - dateB;
 };
@@ -140,8 +149,8 @@ const countXpSoon = () => {
 
 const getXp = async () => {
     const { login, location } = await getProfil();
-    const activitiesPays = (await getActivitiesHub(location.split('/')[0]))?.activites;
-    const activitiesRegion = (await getActivitiesHub(location.split('/')[1]))?.activites;
+    const activitiesPays = (await getActivitiesHub(location.split('/')[ 0 ]))?.activites;
+    const activitiesRegion = (await getActivitiesHub(location.split('/')[ 1 ]))?.activites;
     const activities = activitiesPays.concat(activitiesRegion).sort(sortDate);
     const strRegex = xpAct.map((a, index) => {
         const name = `(${a.name})`;
@@ -155,10 +164,10 @@ const getXp = async () => {
 
         if (typeAct)
             activite.events.map((event) => {
-                if (event?.user_status) addActivite(activite.title, typeAct[0], event.user_status, event.begin);
+                if (event?.user_status) addActivite(activite.title, typeAct[ 0 ], event.user_status, event.begin);
                 else if (event?.assistants?.find((assistant) => assistant.login === login))
-                    addActivite(activite.title, typeAct[0], 'organisateur', event.begin);
-                else if (event?.already_register) addActivite(activite.title, typeAct[0], 'soon', event.begin);
+                    addActivite(activite.title, typeAct[ 0 ], 'organisateur', event.begin);
+                else if (event?.already_register) addActivite(activite.title, typeAct[ 0 ], 'soon', event.begin);
             });
     });
     await getAllExperiences(
@@ -167,9 +176,27 @@ const getXp = async () => {
         login,
     );
     countXpSoon();
-
+    me.present.forEach(element => {
+        if (element.type == 'Talk')
+            participation.talk += 1
+        if (element.type == 'Workshop')
+            participation.workshop += 1
+        if (element.type == 'Hackathon')
+            participation.hackaton += 1
+    });
+    me.soon.forEach(element => {
+        if (element.type == 'Talk')
+            participation.talksoon += 1
+        if (element.type == 'Workshop')
+            participation.workshopsoon += 1
+        if (element.type == 'Hackathon')
+            participation.hackatonsoon += 1
+    });
     value.innerHTML =
-        lang === 'fr' ? `Validées : ${me.nbXps} / En cours : ${me.nbXpsSoon}` : `Validated : ${me.nbXps} / In progress : ${me.nbXpsSoon}`;
+        lang === 'fr' ? `Validées : ${me.nbXps} / En cours : ${me.nbXpsSoon}` : `Validated : ${me.nbXps} / In progress : ${me.nbXpsSoon} 
+        <br> Talk: ${participation.talk} (+${participation.talksoon}) / 15
+        <br> Workshop: ${participation.workshop} (+${participation.workshopsoon}) / 10
+        <br> Hackathon: ${participation.hackaton} (+${participation.hackatonsoon})`;
 };
 
 const insertAfter = (newNode, referenceNode) => {
