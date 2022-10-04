@@ -229,4 +229,4 @@ value.innerHTML = lang === 'fr' ? 'Chargement...' : 'Loading...';
 insertAfter(title, neartag.nextElementSibling);
 insertAfter(value, title);
 
-getXp().then(console.error);
+getXp();
