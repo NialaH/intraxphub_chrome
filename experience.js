@@ -47,7 +47,7 @@ const xpAct = [
     },
 ];
 
-var participation = {
+let participation = {
     talk: 0,
     workshop: 0,
     hackaton: 0,
@@ -55,6 +55,7 @@ var participation = {
     workshopsoon: 0,
     hackatonsoon: 0,
 }
+let year = 2022;
 
 const me = { nbXps: 0, nbXpsSoon: 0, present: [], absent: [], soon: [] };
 
@@ -79,11 +80,11 @@ const getProfil = async () => {
 };
 
 const getActivitiesHub = async (region) => {
-    return await requestGet(`${baseUrl}/module/2021/B-INN-000/${region}-0-1/?format=json`);
+    return await requestGet(`${baseUrl}/module/${year}/B-INN-000/${region}-0-1/?format=json`);
 };
 
 const getAllExperiences = async (activities, region, login) => {
-    const url = `${baseUrl}/module/2021/B-INN-000/${region?.split('/')[ 1 ]}-0-1`;
+    const url = `${baseUrl}/module/${year}/B-INN-000/${region?.split('/')[ 1 ]}-0-1`;
     try {
         let res = await Promise.all(
             activities.map((act) => {
@@ -148,7 +149,8 @@ const countXpSoon = () => {
 };
 
 const getXp = async () => {
-    const { login, location } = await getProfil();
+    const { login, location, scolaryear } = await getProfil();
+    year = scolaryear;
     const activitiesPays = (await getActivitiesHub(location.split('/')[ 0 ]))?.activites;
     const activitiesRegion = (await getActivitiesHub(location.split('/')[ 1 ]))?.activites;
     const activities = activitiesPays.concat(activitiesRegion).sort(sortDate);
@@ -206,8 +208,7 @@ const insertAfter = (newNode, referenceNode) => {
 };
 
 const findElemByText = (tag, text, xpathType) => {
-    const node = document.evaluate(`//${tag}[text()="${text}"]`, document, null, xpathType, null);
-    return node;
+    return document.evaluate(`//${tag}[text()="${text}"]`, document, null, xpathType, null);
 };
 
 function getCookie(name) {
@@ -228,4 +229,4 @@ value.innerHTML = lang === 'fr' ? 'Chargement...' : 'Loading...';
 insertAfter(title, neartag.nextElementSibling);
 insertAfter(value, title);
 
-getXp();
+getXp().then(console.error);
