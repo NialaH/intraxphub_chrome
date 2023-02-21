@@ -208,8 +208,8 @@ const getXp = async () => {
             participation.experiencesoon += 1
     });
     value.innerHTML =
-        lang === 'fr' ? `Validées : ${me.nbXps} / En cours : ${me.nbXpsSoon}` : `Validated : ${me.nbXps} / In progress : ${me.nbXpsSoon} 
-        <br> Talk: ${participation.talk} (+${participation.talksoon}) / ${xpAct[0].limitPart}
+        lang === 'fr' ? `Validées : ${me.nbXps} / En cours : ${me.nbXpsSoon}` : `Validated : ${me.nbXps} / In progress : ${me.nbXpsSoon}`;
+    value.innerHTML += `<br> Talk: ${participation.talk} (+${participation.talksoon}) / ${xpAct[0].limitPart}
         <br> Workshop: ${participation.workshop} (+${participation.workshopsoon}) / ${xpAct[1].limitPart}
         <br> Experience: ${participation.experience} (+${participation.experiencesoon}) / ${xpAct[3].limitPart}
         <br> Hackathon: ${participation.hackaton} (+${participation.hackatonsoon})`;
