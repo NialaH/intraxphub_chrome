@@ -51,9 +51,11 @@ let participation = {
     talk: 0,
     workshop: 0,
     hackaton: 0,
+    experience: 0,
     talksoon: 0,
     workshopsoon: 0,
     hackatonsoon: 0,
+    experiencesoon: 0,
 }
 let year = 2022;
 
@@ -88,7 +90,7 @@ const getAllExperiences = async (activities, region, login) => {
     try {
         let res = await Promise.all(
             activities.map((act) => {
-                return fetch(`${url}/${act?.codeacti}/note/?format=json`, {
+                return fetch(`${url}/${act?.codeacti}/project/?format=json`, {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -101,8 +103,15 @@ const getAllExperiences = async (activities, region, login) => {
         );
         res?.map((result) => {
             if (Object.keys(result).length === 0 && result.constructor === Object) return;
-            const act = result?.find((user) => user.login === login);
-            if (act?.note === 100) addActivite('Experience', 'Experience', 'present', act?.date);
+            const closed = result.closed;
+            const date = result.end;
+            const registered = result.registered[0];
+            const master = registered.master;
+            const act_login = master.login;
+
+            if (act_login === login && closed) {
+                addActivite('Experience', 'Experience', 'present', date);
+            }
         });
     } catch (e) {
         console.log(e);
@@ -179,25 +188,30 @@ const getXp = async () => {
     );
     countXpSoon();
     me.present.forEach(element => {
-        if (element.type == 'Talk')
+        if (element.type === 'Talk')
             participation.talk += 1
-        if (element.type == 'Workshop')
+        if (element.type === 'Workshop')
             participation.workshop += 1
-        if (element.type == 'Hackathon')
+        if (element.type === 'Hackathon')
             participation.hackaton += 1
+        if (element.type === "Experience")
+            participation.experience += 1
     });
     me.soon.forEach(element => {
-        if (element.type == 'Talk')
+        if (element.type === 'Talk')
             participation.talksoon += 1
-        if (element.type == 'Workshop')
+        if (element.type === 'Workshop')
             participation.workshopsoon += 1
-        if (element.type == 'Hackathon')
+        if (element.type === 'Hackathon')
             participation.hackatonsoon += 1
+        if (element.type === "Experience")
+            participation.experiencesoon += 1
     });
     value.innerHTML =
-        lang === 'fr' ? `Validées : ${me.nbXps} / En cours : ${me.nbXpsSoon}` : `Validated : ${me.nbXps} / In progress : ${me.nbXpsSoon} 
-        <br> Talk: ${participation.talk} (+${participation.talksoon}) / 15
-        <br> Workshop: ${participation.workshop} (+${participation.workshopsoon}) / 10
+        lang === 'fr' ? `Validées : ${me.nbXps} / En cours : ${me.nbXpsSoon}` : `Validated : ${me.nbXps} / In progress : ${me.nbXpsSoon}`;
+    value.innerHTML += `<br> Talk: ${participation.talk} (+${participation.talksoon}) / ${xpAct[0].limitPart}
+        <br> Workshop: ${participation.workshop} (+${participation.workshopsoon}) / ${xpAct[1].limitPart}
+        <br> Experience: ${participation.experience} (+${participation.experiencesoon}) / ${xpAct[3].limitPart}
         <br> Hackathon: ${participation.hackaton} (+${participation.hackatonsoon})`;
 };
 
